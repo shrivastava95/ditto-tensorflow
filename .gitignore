@@ -1,0 +1,7 @@
+data/femnist/data/train*
+data/femnist/data/test*
+data/fmnist/data/train*
+data/fmnist/data/test*
+data/fmnist/raw_data/fashion/t10k*
+data/fmnist/raw_data/fashion/train*
+temp.md
