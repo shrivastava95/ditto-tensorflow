@@ -1,4 +1,4 @@
-python3  -u main.py --dataset=fmnist \
+python3  -u storage/ditto/ditto-tensorflow/main.py --dataset=fmnist \
             --optimizer=$1 \
             --learning_rate=0.05 \
             --num_rounds=5000 \
