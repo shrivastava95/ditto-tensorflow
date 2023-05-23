@@ -1,5 +1,5 @@
 python3  -u storage/ditto/ditto-tensorflow/main.py --dataset=fmnist \
-            --optimizer=$1 \
+            --optimizer=ditto \
             --learning_rate=0.05 \
             --num_rounds=5000 \
             --eval_every=10 \
