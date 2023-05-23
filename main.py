@@ -202,8 +202,8 @@ def main():
     options, learner, optimizer = read_options()
 
     # read data
-    train_path = os.path.join('data', options['dataset'], 'data', 'train')
-    test_path = os.path.join('data', options['dataset'], 'data', 'test')
+    train_path = os.path.join('ditto/ditto-tensorflow/data', options['dataset'], 'data', 'train')
+    test_path = os.path.join('ditto/ditto-tensorflow/data', options['dataset'], 'data', 'test')
     dataset = read_data(train_path, test_path)
 
     # call appropriate trainer
