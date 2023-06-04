@@ -113,9 +113,13 @@ class Server(BaseFedarated):
                         self.local_models[idx] = copy.deepcopy(model_best)
 
                     else:
+
                         for layer in range(len(grads[1])):
+                            # ditto original local update scheme - local objective + consistency loss between weights
                             eff_grad = grads[1][layer] + self.lam * (self.local_models[idx][layer] - self.global_model[layer])
                             self.local_models[idx][layer] = self.local_models[idx][layer] - self.learning_rate * eff_grad
+
+                            # ditto modified local update scheme - local objective + KD loss between logits
 
                     # global
                     self.client_model.set_params(w_global_idx)
