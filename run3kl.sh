@@ -1,7 +1,7 @@
 cd storage/ditto/ditto-tensorflow
 
 # python3  -u main.py --dataset=fmnist \
-#             --optimizer=finetuning \
+#             --optimizer=kl \
 #             --learning_rate=0.05 \
 #             --num_rounds=1000 \
 #             --eval_every=100 \
@@ -33,7 +33,7 @@ cd storage/ditto/ditto-tensorflow
 
 
 python3  -u main.py --dataset=fmnist \
-            --optimizer=ditto \
+            --optimizer=kl \
             --learning_rate=0.05 \
             --num_rounds=1000 \
             --eval_every=100 \
@@ -64,7 +64,7 @@ python3  -u main.py --dataset=fmnist \
 
 
 python3  -u main.py --dataset=fmnist \
-            --optimizer=ditto \
+            --optimizer=kl \
             --learning_rate=0.05 \
             --num_rounds=1000 \
             --eval_every=100 \
@@ -95,7 +95,7 @@ python3  -u main.py --dataset=fmnist \
 
 
 python3  -u main.py --dataset=fmnist \
-            --optimizer=ditto \
+            --optimizer=kl \
             --learning_rate=0.05 \
             --num_rounds=1000 \
             --eval_every=100 \
