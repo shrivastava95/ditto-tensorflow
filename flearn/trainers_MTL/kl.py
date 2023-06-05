@@ -102,6 +102,7 @@ class Server(BaseFedarated):
             # start to finetune
             local_model = copy.deepcopy(self.latest_model)
 
+            print(f'number of finetuning rounds: {max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)}')
             for _ in range(max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)):
                 data_batch = next(batches[c])
                 c.set_params(local_model)
