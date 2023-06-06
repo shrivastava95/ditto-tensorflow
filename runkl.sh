@@ -3,7 +3,7 @@ cd storage/ditto/ditto-tensorflow
 python3  -u main.py --dataset=fmnist \
             --optimizer=kl \
             --learning_rate=0.05 \
-            --num_rounds=1000 \
+            --num_rounds=5000 \
             --eval_every=100 \
             --clients_per_round=10 \
             --batch_size=16 \
