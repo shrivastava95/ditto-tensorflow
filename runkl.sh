@@ -1,10 +1,10 @@
 cd storage/ditto/ditto-tensorflow
 
 python3  -u main.py --dataset=fmnist \
-            --optimizer=ditto \
+            --optimizer=kl \
             --learning_rate=0.05 \
             --num_rounds=1000 \
-            --eval_every=10 \
+            --eval_every=100 \
             --clients_per_round=10 \
             --batch_size=16 \
             --q=0 \
@@ -28,7 +28,3 @@ python3  -u main.py --dataset=fmnist \
             --dynamic_lam=0 \
             --finetune_iters=40 \
             --decay_factor=1 \
-            --local_iters=2 \
-
-
-
