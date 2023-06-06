@@ -113,7 +113,7 @@ class Server(BaseFedarated):
 
                     for j in range(len(grads[1])):
                         eff_grad = grads[1][j] + self.lam * kl_grads[j]
-                        local_model[j] = local_model[j] - self.learning_rate * eff_grad
+                        local_model[j] = local_model[j] - ( self.learning_rate / 100 ) * eff_grad
                 
                 except Exception as e:
                     print(f'Error occured during finetuning client idx {idx}:')
