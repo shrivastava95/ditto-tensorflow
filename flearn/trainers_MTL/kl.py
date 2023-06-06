@@ -102,23 +102,23 @@ class Server(BaseFedarated):
             # start to finetune
             local_model = copy.deepcopy(self.latest_model)
 
-            # # print(f'finetuning client idx {idx}: finetuning rounds: {max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)}')
-            # print(f'finetuning client idx {idx}: finetuning rounds: {self.finetune_iters}')
-            # for _ in range(self.finetune_iters):
-            #     try:
-            #         data_batch = next(batches[c])
-            #         c.set_params(local_model)
-            #         kl_grads = c.get_kl_grads(output2)
-            #         _, grads, _ = c.solve_sgd(data_batch)
+            # print(f'finetuning client idx {idx}: finetuning rounds: {max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)}')
+            print(f'finetuning client idx {idx}: finetuning rounds: {self.finetune_iters}')
+            for _ in range(self.finetune_iters):
+                try:
+                    data_batch = next(batches[c])
+                    c.set_params(local_model)
+                    kl_grads = c.get_kl_grads(output2)
+                    _, grads, _ = c.solve_sgd(data_batch)
 
-            #         for j in range(len(grads[1])):
-            #             eff_grad = grads[1][j] + self.lam * kl_grads[j]
-            #             local_model[j] = local_model[j] - self.learning_rate * eff_grad
+                    for j in range(len(grads[1])):
+                        eff_grad = grads[1][j] + self.lam * kl_grads[j]
+                        local_model[j] = local_model[j] - self.learning_rate * eff_grad
                 
-            #     except Exception as e:
-            #         print(f'Error occured during finetuning client idx {idx}:')
-            #         print(e)
-            #         break
+                except Exception as e:
+                    print(f'Error occured during finetuning client idx {idx}:')
+                    print(e)
+                    break
 
             c.set_params(local_model)
             tc, _, num_test = c.test()
