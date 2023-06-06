@@ -97,7 +97,7 @@ class Server(BaseFedarated):
         test_samples = []
         for idx, c in enumerate(self.clients):
 
-            c.set_params(self.latest_model)
+            # c.set_params(self.latest_model)
             output2 = copy.deepcopy(c.get_softmax()) 
             # start to finetune
             local_model = copy.deepcopy(self.latest_model)
