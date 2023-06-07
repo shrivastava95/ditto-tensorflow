@@ -174,41 +174,25 @@ class Server(BaseFedarated):
 
         #### Ishaan: Added this section in order to finetune.
         # local finetuning
-        # local finetuning based on KL
+        init_model = copy.deepcopy(self.global_model)
+
         after_test_accu = []
         test_samples = []
         for idx, c in enumerate(self.clients):
-
-            # c.set_params(self.latest_model)
-            output2 = copy.deepcopy(c.get_softmax()) 
-            # start to finetune
-            local_model = copy.deepcopy(self.latest_model)
-
-            # print(f'finetuning client idx {idx}: finetuning rounds: {max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)}')
-            print(f'finetuning client idx {idx}: finetuning rounds: {self.finetune_iters}')
-            for _ in range(self.finetune_iters):
-                try:
-                    data_batch = next(batches[c])
-                    c.set_params(local_model)
-                    kl_grads = c.get_kl_grads(output2)
-                    _, grads, _ = c.solve_sgd(data_batch)
-
-                    for j in range(len(grads[1])):
-                        eff_grad = grads[1][j] + self.lam * kl_grads[j]
-                        local_model[j] = local_model[j] - ( self.learning_rate / 100 ) * eff_grad
-                
-                except Exception as e:
-                    print(f'Error occured during finetuning client idx {idx}:')
-                    print(e)
-                    break
-
+            c.set_params(init_model)
+            local_model = copy.deepcopy(init_model)
+            for _ in range(max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)):
+                c.set_params(local_model)
+                data_batch = next(batches[c])
+                _, grads, _ = c.solve_sgd(data_batch)
+                for j in range(len(grads[1])):
+                    eff_grad = grads[1][j] + self.lam * (local_model[j] - init_model[j])
+                    local_model[j] = local_model[j] - self.learning_rate * self.decay_factor * eff_grad
             c.set_params(local_model)
             tc, _, num_test = c.test()
             after_test_accu.append(tc)
             test_samples.append(num_test)
 
-
-        non_corrupt_id = np.setdiff1d(range(len(self.clients)), corrupt_id)
         after_test_accu = np.asarray(after_test_accu)
         test_samples = np.asarray(test_samples)
         tqdm.write('final test accu: {}'.format(np.sum(after_test_accu) * 1.0 / np.sum(test_samples)))
@@ -218,5 +202,4 @@ class Server(BaseFedarated):
             after_test_accu[non_corrupt_id]) * 1.0 / np.sum(test_samples[non_corrupt_id])))
         print("variance of the performance: ",
               np.var(after_test_accu[non_corrupt_id] / test_samples[non_corrupt_id]))
-
         ###
