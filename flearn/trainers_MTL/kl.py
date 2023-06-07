@@ -7,7 +7,6 @@ from flearn.trainers_global.fedbase import BaseFedarated
 from flearn.utils.tf_utils import process_grad, cosine_sim, softmax, norm_grad, l2_clip, get_stdev
 from flearn.utils.model_utils import batch_data, gen_batch, gen_epoch, gen_batch_celeba
 
-
 class Server(BaseFedarated):
     def __init__(self, params, learner, dataset):
         print('Using symmetrized KL')
