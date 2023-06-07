@@ -68,7 +68,7 @@ class Model(object):
 
 
         # kl_loss = tf.keras.losses.KLD(predictions['probabilities'], output2) + tf.keras.losses.KLD(output2, predictions['probabilities'])
-        kl_loss = tf.keras.losses.KLDivergence(predictions['probabilities'], output2)
+        kl_loss = tf.keras.losses.KLDivergence()(predictions['probabilities'], output2)
         # kl_loss = T * T * tf.keras.losses.MeanSquaredError()(output2, predictions['probabilities'])
         kl_grads_and_vars = optimizer.compute_gradients(kl_loss)
         kl_grads, _ = zip(*kl_grads_and_vars)
