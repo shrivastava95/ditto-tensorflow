@@ -67,8 +67,9 @@ class Model(object):
         eval_metric_ops = tf.count_nonzero(tf.equal(labels, predictions["classes"]))
 
 
-        # kl_loss = T * T * tf.keras.losses.KLDivergence(predictions['probabilities'] / T, output2 / T) + tf.keras.losses.KLD(output2 / T, predictions['probabilities'] / T)
-        kl_loss = T * T * tf.keras.losses.MeanSquaredError()(output2, predictions['probabilities'])
+        # kl_loss = tf.keras.losses.KLD(predictions['probabilities'], output2) + tf.keras.losses.KLD(output2, predictions['probabilities'])
+        kl_loss = tf.keras.losses.KLDivergence(predictions['probabilities'], output2)
+        # kl_loss = T * T * tf.keras.losses.MeanSquaredError()(output2, predictions['probabilities'])
         kl_grads_and_vars = optimizer.compute_gradients(kl_loss)
         kl_grads, _ = zip(*kl_grads_and_vars)
 
