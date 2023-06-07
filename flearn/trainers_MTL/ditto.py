@@ -172,34 +172,34 @@ class Server(BaseFedarated):
             for layer in range(len(avg_updates)):
                 self.global_model[layer] += avg_updates[layer]
 
-        # #### Ishaan: Added this section in order to finetune.
-        # # local finetuning
-        # init_model = copy.deepcopy(self.latest_model)
+        #### Ishaan: Added this section in order to finetune.
+        # local finetuning
+        init_model = copy.deepcopy(self.latest_model)
 
-        # after_test_accu = []
-        # test_samples = []
-        # for idx, c in enumerate(self.clients):
-        #     c.set_params(init_model)
-        #     local_model = copy.deepcopy(init_model)
-        #     for _ in range(max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)):
-        #         c.set_params(local_model)
-        #         data_batch = next(batches[c])
-        #         _, grads, _ = c.solve_sgd(data_batch)
-        #         for j in range(len(grads[1])):
-        #             eff_grad = grads[1][j] + self.lam * (local_model[j] - init_model[j])
-        #             local_model[j] = local_model[j] - self.learning_rate * self.decay_factor * eff_grad
-        #     c.set_params(local_model)
-        #     tc, _, num_test = c.test()
-        #     after_test_accu.append(tc)
-        #     test_samples.append(num_test)
+        after_test_accu = []
+        test_samples = []
+        for idx, c in enumerate(self.clients):
+            c.set_params(init_model)
+            local_model = copy.deepcopy(init_model)
+            for _ in range(max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)):
+                c.set_params(local_model)
+                data_batch = next(batches[c])
+                _, grads, _ = c.solve_sgd(data_batch)
+                for j in range(len(grads[1])):
+                    eff_grad = grads[1][j] + self.lam * (local_model[j] - init_model[j])
+                    local_model[j] = local_model[j] - self.learning_rate * self.decay_factor * eff_grad
+            c.set_params(local_model)
+            tc, _, num_test = c.test()
+            after_test_accu.append(tc)
+            test_samples.append(num_test)
 
-        # after_test_accu = np.asarray(after_test_accu)
-        # test_samples = np.asarray(test_samples)
-        # tqdm.write('final test accu: {}'.format(np.sum(after_test_accu) * 1.0 / np.sum(test_samples)))
-        # tqdm.write('final malicious test accu: {}'.format(np.sum(
-        #     after_test_accu[corrupt_id]) * 1.0 / np.sum(test_samples[corrupt_id])))
-        # tqdm.write('final benign test accu: {}'.format(np.sum(
-        #     after_test_accu[non_corrupt_id]) * 1.0 / np.sum(test_samples[non_corrupt_id])))
-        # print("variance of the performance: ",
-        #       np.var(after_test_accu[non_corrupt_id] / test_samples[non_corrupt_id]))
-        # ###
+        after_test_accu = np.asarray(after_test_accu)
+        test_samples = np.asarray(test_samples)
+        tqdm.write('final test accu: {}'.format(np.sum(after_test_accu) * 1.0 / np.sum(test_samples)))
+        tqdm.write('final malicious test accu: {}'.format(np.sum(
+            after_test_accu[corrupt_id]) * 1.0 / np.sum(test_samples[corrupt_id])))
+        tqdm.write('final benign test accu: {}'.format(np.sum(
+            after_test_accu[non_corrupt_id]) * 1.0 / np.sum(test_samples[non_corrupt_id])))
+        print("variance of the performance: ",
+              np.var(after_test_accu[non_corrupt_id] / test_samples[non_corrupt_id]))
+        ###
