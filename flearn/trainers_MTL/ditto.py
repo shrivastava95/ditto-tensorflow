@@ -172,6 +172,48 @@ class Server(BaseFedarated):
             for layer in range(len(avg_updates)):
                 self.global_model[layer] += avg_updates[layer]
 
+
+        # #### Ishaan: Added this section for before finetune baenchmark.
+        # after_test_accu = []
+        # test_samples = []
+        # for idx, c in enumerate(self.clients):
+
+        #     # c.set_params(self.latest_model)
+        #     output2 = copy.deepcopy(c.get_softmax()) 
+        #     # start to finetune
+        #     local_model = copy.deepcopy(self.global_model)
+
+        #     # print(f'finetuning client idx {idx}: finetuning rounds: {max(int(self.finetune_iters * c.train_samples / self.batch_size), self.finetune_iters)}')
+        #     # print(f'befrfinetuning client idx {idx}: finetuning rounds: {self.finetune_iters}')
+        #     # for _ in range(self.finetune_iters):
+        #         # try:
+        #         #     data_batch = next(batches[c])
+        #         #     c.set_params(local_model)
+        #         #     kl_grads = c.get_kl_grads(output2)
+        #         #     _, grads, _ = c.solve_sgd(data_batch)
+
+        #         #     for j in range(len(grads[1])):
+        #         #         eff_grad = grads[1][j] + self.lam * kl_grads[j]
+        #         #         local_model[j] = local_model[j] - ( self.learning_rate / 100 ) * eff_grad
+                
+        #         # except Exception as e:
+        #         #     print(f'Error occured during finetuning client idx {idx}:')
+        #         #     print(e)
+        #         #     break
+
+        #     c.set_params(local_model)
+        #     tc, _, num_test = c.test()
+        #     after_test_accu.append(tc)
+        #     test_samples.append(num_test)
+
+
+        # non_corrupt_id = np.setdiff1d(range(len(self.clients)), corrupt_id)
+        # after_test_accu = np.asarray(after_test_accu)
+        # test_samples = np.asarray(test_samples)
+        # tqdm.write('pre finetuning all client local test accuracies:')
+        # print(list(np.array(after_test_accu) / np.array(test_samples)))
+
+        ###
         #### Ishaan: Added this section in order to finetune.
         # local finetuning
         # local finetuning based on KL
@@ -202,7 +244,7 @@ class Server(BaseFedarated):
                     print(e)
                     break
 
-            c.set_params(local_model)
+            # c.set_params(local_model)
             tc, _, num_test = c.test()
             after_test_accu.append(tc)
             test_samples.append(num_test)
