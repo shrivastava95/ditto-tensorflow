@@ -300,5 +300,7 @@ class Server(BaseFedarated):
         non_corrupt_id = np.setdiff1d(range(len(self.clients)), corrupt_id)
         after_test_accu = np.asarray(after_test_accu)
         test_samples = np.asarray(test_samples)
-        tqdm.write('pre finetuning all client local test accuracies:')
+        tqdm.write('post finetuning all client local test accuracies:')
         print(list(np.array(after_test_accu) / np.array(test_samples)))
+        tqdm.write('number of samples across clients:')
+        print(list(test_samples))
