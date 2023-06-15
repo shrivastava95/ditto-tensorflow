@@ -201,7 +201,7 @@ class Server(BaseFedarated):
                 #     print(e)
                 #     break
 
-            c.set_params(local_model)
+            # c.set_params(local_model)
             tc, _, num_test = c.test()
             after_test_accu.append(tc)
             test_samples.append(num_test)
@@ -291,7 +291,7 @@ class Server(BaseFedarated):
                 #     print(e)
                 #     break
 
-            c.set_params(local_model)
+            # c.set_params(local_model)
             tc, _, num_test = c.test()
             after_test_accu.append(tc)
             test_samples.append(num_test)

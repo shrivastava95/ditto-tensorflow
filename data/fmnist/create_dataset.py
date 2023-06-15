@@ -128,10 +128,10 @@ def main():
         test_data['num_samples'].append(len(y_user_test[i]))
 
 
-    with open(train_output, 'w') as outfile:
-        json.dump(train_data, outfile)
-    with open(test_output, 'w') as outfile:
-        json.dump(test_data, outfile)
+    # with open(train_output, 'w') as outfile:
+    #     json.dump(train_data, outfile)
+    # with open(test_output, 'w') as outfile:
+    #     json.dump(test_data, outfile)
 
 
 if __name__ == "__main__":
